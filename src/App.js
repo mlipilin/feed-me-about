@@ -1,6 +1,24 @@
-import styles from './App.module.css'
+import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
+import { Router, Route } from 'react-router-dom'
+import { createHashHistory } from 'history'
 
-function App() {
+import styles from './App.module.scss'
+
+const defaultHistory = createHashHistory()
+
+function RouteComponent({ history }) {
+  function handleClick() {
+    history.push('/')
+  }
+
+  function handleUnmountClick() {
+    const unmounted = ReactDOM.unmountComponentAtNode(
+      document.getElementById('microfrontend-container')
+    )
+    console.log('unmounted', unmounted)
+  }
+
   return (
     <div className={styles.App}>
       <h1>About</h1>
@@ -50,8 +68,27 @@ function App() {
         original form, accompanied by English versions from the 1914 translation
         by H. Rackham.
       </p>
+      <div onClick={handleClick}>To Browse</div>
+      <div onClick={handleUnmountClick}>Unmount</div>
     </div>
   )
+}
+
+RouteComponent.propTypes = {
+  history: PropTypes.object.isRequired,
+}
+
+function App({ history = defaultHistory }) {
+  console.log('About app', history)
+  return (
+    <Router history={history}>
+      <Route component={RouteComponent} />
+    </Router>
+  )
+}
+
+App.propTypes = {
+  history: PropTypes.object,
 }
 
 export default App

@@ -4,11 +4,11 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
-window.renderAbout = (containerId) => {
-  console.log('renderAbout', { containerId })
+window.renderAbout = (containerId, history) => {
+  // console.log('renderAbout', { containerId })
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <App history={history} />
     </React.StrictMode>,
     document.getElementById(containerId)
   )
@@ -16,6 +16,12 @@ window.renderAbout = (containerId) => {
 }
 
 window.unmountAbout = (containerId) => {
-  console.log('unmountAbout', { containerId })
-  ReactDOM.unmountComponentAtNode(document.getElementById(containerId))
+  console.log('unmountAbout', {
+    containerId,
+    containerIdNode: document.getElementById(containerId),
+  })
+  const unmounted = ReactDOM.unmountComponentAtNode(
+    document.getElementById(containerId)
+  )
+  return unmounted
 }
